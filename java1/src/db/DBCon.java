@@ -28,20 +28,24 @@ public class DBCon {
 		}
 
 	}
+	
+	public Connection getCon() {
+		return con;
+	}
 
 	private void dBConnect() throws SQLException {
 		con = DriverManager.getConnection(url, id, pwd);
 	}
-	
+
 	public void printListFromTable(String sql) {
 		List<HashMap<String, String>> list = getListFromTable(sql);
-		if(list!=null) {
-			for(HashMap<String, String> hm : list) {
-				System.out.println(hm);;
+		if (list != null) {
+			for (HashMap<String, String> hm : list) {
+				System.out.println(hm);
 			}
 		}
 	}
-	
+
 	public List<HashMap<String, String>> getListFromTable(String sql) {
 		PreparedStatement ps;
 		try {
@@ -54,10 +58,11 @@ public class DBCon {
 				HashMap<String, String> hm = new HashMap<String, String>();
 				for (int i = 1; i <= maxNum; i++) {
 					String colName = rsmd.getColumnLabel(i);
-					hm.put(colName,  rs.getString(colName));
+					hm.put(colName, rs.getString(colName));
 				}
 				list.add(hm);
 			}
+			return list;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
